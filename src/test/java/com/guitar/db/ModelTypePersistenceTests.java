@@ -19,6 +19,9 @@ import com.guitar.db.repository.ModelTypeJpaRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ModelTypePersistenceTests {
 
+//	@Autowired
+//	private ModelTypeRepository modelTypeRepository;
+	
 	@Autowired
 	private ModelTypeJpaRepository modelTypeJpaRepository;
 

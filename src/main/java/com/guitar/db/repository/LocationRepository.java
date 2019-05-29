@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.guitar.db.model.Location;
 
+/*** CLASE SUSTITUIDA POR LocationJpaRepository ***/
+
 @Repository
 public class LocationRepository {
 	@PersistenceContext

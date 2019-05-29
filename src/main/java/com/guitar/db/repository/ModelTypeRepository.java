@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.guitar.db.model.ModelType;
 
+/*** CLASE SUSTITUIDA POR ModelTypeJpaRepository ***/
+
 @Repository
 public class ModelTypeRepository {
 	@PersistenceContext
