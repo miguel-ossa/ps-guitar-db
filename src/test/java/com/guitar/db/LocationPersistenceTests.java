@@ -1,7 +1,6 @@
 package com.guitar.db;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -35,6 +34,32 @@ public class LocationPersistenceTests {
 	public void testJpaFind() {
 		List<Location> locations = locationJpaRepository.findAll();
 		assertNotNull(locations);
+	}
+
+	@Test
+	public void testJpaAnd() {
+		List<Location> locations = locationJpaRepository.findByStateAndCountry("Utah", "United States");
+		assertNotNull(locations);
+		assertEquals("Utah", locations.get(0).getState());
+
+	}
+
+	@Test
+	public void testJpaOr() {
+		List<Location> locations = locationJpaRepository.findByStateOrCountry("Utah", "Utah");
+		assertNotNull(locations);
+		assertEquals("Utah", locations.get(0).getState());
+				
+		List<Location> locations2 = locationJpaRepository.findByStateIsOrCountryEquals("Utah", "Utah");
+		assertNotNull(locations2);
+		assertEquals("Utah", locations2.get(0).getState());
+	}
+	
+	@Test
+	public void testJpaNot() {
+		List<Location> locations = locationJpaRepository.findByStateNot("Utah");
+		assertNotNull(locations);
+		assertNotSame("Utah", locations.get(0).getState());
 	}
 	
 	@Test
