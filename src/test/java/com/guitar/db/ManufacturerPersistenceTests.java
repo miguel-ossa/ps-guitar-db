@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guitar.db.model.Manufacturer;
+import com.guitar.db.repository.ManufacturerJpaRepository;
 import com.guitar.db.repository.ManufacturerRepository;
 
 @ContextConfiguration(locations={"classpath:com/guitar/db/applicationTests-context.xml"})
@@ -20,10 +21,22 @@ public class ManufacturerPersistenceTests {
 	@Autowired
 	private ManufacturerRepository manufacturerRepository;
 
+	@Autowired
+	private ManufacturerJpaRepository manufacturerJpaRepository;
+
 	@Test
 	public void testGetManufacturersFoundedBeforeDate() throws Exception {
 		List<Manufacturer> mans = manufacturerRepository.getManufacturersFoundedBeforeDate(new Date());
 		assertEquals(2, mans.size());
+	}
+
+	@Test
+	public void testTrueFalse() throws Exception {
+		List<Manufacturer> mans = manufacturerJpaRepository.findByActiveTrue();
+		assertEquals("Fender Musical Instruments Corporation", mans.get(0).getName());
+		
+		mans = manufacturerJpaRepository.findByActiveFalse();
+		assertEquals("Gibson Guitar Corporation", mans.get(0).getName());
 	}
 
 	@Test

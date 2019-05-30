@@ -1,6 +1,8 @@
 package com.guitar.db;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 import java.util.List;
 
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.guitar.db.model.Location;
 import com.guitar.db.repository.LocationJpaRepository;
-import com.guitar.db.repository.LocationRepository;
 
 @ContextConfiguration(locations={"classpath:com/guitar/db/applicationTests-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -90,7 +91,28 @@ public class LocationPersistenceTests {
 //		List<Location> locs = locationRepository.getLocationByStateName("New");
 		List<Location> locs = locationJpaRepository.findByStateLike("New%");
 		assertEquals(4, locs.size());
+		
+		locs = locationJpaRepository.findByStateNotLike("New%");
+		assertNotSame(4, locs.size());
+
+		locs = locationJpaRepository.findByStateNotLikeOrderByStateAsc("New%");
+		assertNotSame(4, locs.size());
+		
+		locs.forEach((location) -> {
+			System.out.println(location.getState());
+		});
+
+		locs = locationJpaRepository.findByStateStartingWith("New");
+		assertEquals(4, locs.size());
+		
+		locs = locationJpaRepository.findByStateIgnoreCaseStartingWith("new");
+		assertEquals(4, locs.size());
+		
+ 		Location loc = locationJpaRepository.findFirstByStateIgnoreCaseStartingWith("a");
+		assertEquals("Alabama", loc.getState());
+		
 	}
+
 
 	@Test
 	@Transactional  //note this is needed because we will get a lazy load exception unless we are in a tx
